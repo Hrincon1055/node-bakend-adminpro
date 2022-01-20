@@ -1,14 +1,20 @@
-const { request, response } = require("express");
 const Hospital = require("../models/hospital");
+const Medico = require("../models/medico");
 
 const existeIdHospital = async (idHospital) => {
-  console.log("db-validators LINE 5 =>", idHospital);
   const existeHospital = await Hospital.findById(idHospital);
-  console.log("db-validators LINE 7 =>", existeHospital);
   if (!existeHospital) {
     throw new Error(`El id de hospital no exite: ${idHospital}`);
   }
 };
+const existeIdMedico = async (idMedico) => {
+  console.log("db-validators LINE 11 =>", idMedico);
+  const existeMedico = await Medico.findById(idMedico);
+  if (!existeMedico) {
+    throw new Error(`El id de medico no exite: ${idMedico}`);
+  }
+};
 module.exports = {
   existeIdHospital,
+  existeIdMedico,
 };

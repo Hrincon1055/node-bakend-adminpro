@@ -30,16 +30,45 @@ const crearHospital = async (req = request, res = response) => {
   }
 };
 const actualizarHospital = async (req = request, res = response) => {
-  return res.status(200).json({
-    ok: true,
-    msg: "PUT",
-  });
+  const id = req.params.id;
+  const uid = req.uid;
+  try {
+    const cambiosHospital = {
+      ...req.body,
+      usuario: uid,
+    };
+    const hospitalActualizado = await Hospital.findByIdAndUpdate(
+      id,
+      cambiosHospital,
+      { new: true }
+    );
+    return res.status(200).json({
+      ok: true,
+      msg: hospitalActualizado,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      ok: true,
+      msg: "Error Inesperado... revisar logs.",
+    });
+  }
 };
 const borrarHospital = async (req = request, res = response) => {
-  return res.status(200).json({
-    ok: true,
-    msg: "DELETE",
-  });
+  const id = req.params.id;
+  try {
+    await Hospital.findByIdAndDelete(id);
+    return res.status(200).json({
+      ok: true,
+      msg: `Se borro el Hospital con id: ${id}`,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      ok: true,
+      msg: "Error Inesperado... revisar logs.",
+    });
+  }
 };
 
 module.exports = {
