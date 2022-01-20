@@ -10,6 +10,8 @@ app.use(cors());
 app.use(express.json());
 // db conexion
 dbConnection();
+// Directorio publico
+app.use(express.static("public"));
 // Rutas
 app.use("/api/usuarios", require("./routes/usuarios"));
 app.use("/api/login", require("./routes/auth"));
