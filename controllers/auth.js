@@ -23,7 +23,6 @@ const login = async (req = request, res = response) => {
         msg: "Contraseña no valido.",
       });
     }
-    //! TODO: Generar token -
     const token = await generarJWT(usuarioDB.id);
     return res.status(200).json({
       ok: true,
@@ -72,9 +71,11 @@ const googleSigIn = async (req = request, res = response) => {
 };
 const renewToken = async (req = request, res = response) => {
   const uid = req.uid;
+  const usuario = await Usuario.findById(uid, "nombre email img role google");
   const token = await generarJWT(uid);
   return res.status(200).json({
     ok: true,
+    usuario,
     token,
   });
 };

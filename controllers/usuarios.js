@@ -50,7 +50,6 @@ const crearUsuario = async (req = request, res = response) => {
 };
 const actualizarUsuario = async (req = request, res = response) => {
   const uid = req.params.id;
-
   try {
     const usuarioDB = await Usuario.findById(uid);
     if (!usuarioDB) {
@@ -69,7 +68,14 @@ const actualizarUsuario = async (req = request, res = response) => {
         });
       }
     }
-    campos.email = email;
+    if (!usuarioDB.google) {
+      campos.email = email;
+    } else if (usuarioDB.email !== email) {
+      return res.status(400).json({
+        ok: false,
+        msg: "Usuarios de google no pueden cambiar el correo..",
+      });
+    }
     //! TODO: validar token y comprobar usuario
     //? Acutalizaciones
     const usuarioActualizado = await Usuario.findByIdAndUpdate(uid, campos, {
