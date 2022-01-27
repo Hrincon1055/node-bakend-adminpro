@@ -102,7 +102,7 @@ const borrarUsuario = async (req = request, res = response) => {
         msg: "No existe un usuario con ese id.",
       });
     }
-    await Usuario.findOneAndDelete(uid);
+    await Usuario.findOneAndRemove({ _id: uid });
     return res.status(200).json({
       ok: true,
       msg: "Usuario eliminado.",
