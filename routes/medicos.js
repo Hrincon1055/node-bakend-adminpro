@@ -5,6 +5,7 @@ const {
   crearMedico,
   actualizarMedico,
   borrarMedico,
+  getMedicoById,
 } = require("../controllers/medicos");
 const {
   existeIdHospital,
@@ -52,5 +53,15 @@ router.delete(
     validarCampos,
   ],
   borrarMedico
+);
+router.get(
+  "/:id",
+  [
+    validarJWT,
+    check("id", "No es un ID valido de mongo.").isMongoId(),
+    check("id").custom(existeIdMedico),
+    validarCampos,
+  ],
+  getMedicoById
 );
 module.exports = router;

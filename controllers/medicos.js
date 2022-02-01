@@ -13,6 +13,24 @@ const getMedicos = async (req = request, res = response) => {
     medicos,
   });
 };
+const getMedicoById = async (req = request, res = response) => {
+  const id = req.params.id;
+  try {
+    const medico = await Medico.findById(id)
+      .populate("usuario", "nombre img")
+      .populate("hospital", "nombre img");
+    return res.status(200).json({
+      ok: true,
+      medico,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      ok: false,
+      msg: "Error Inesperado... revisar logs.",
+    });
+  }
+};
 const crearMedico = async (req = request, res = response) => {
   const uid = req.uid;
   const medico = new Medico({ usuario: uid, ...req.body });
@@ -25,7 +43,7 @@ const crearMedico = async (req = request, res = response) => {
   } catch (error) {
     console.log(error);
     return res.status(500).json({
-      ok: true,
+      ok: false,
       msg: "Error Inesperado... revisar logs.",
     });
   }
@@ -52,7 +70,7 @@ const actualizarMedico = async (req = request, res = response) => {
   } catch (error) {
     console.log(error);
     return res.status(500).json({
-      ok: true,
+      ok: false,
       msg: "Error Inesperado... revisar logs.",
     });
   }
@@ -68,7 +86,7 @@ const borrarMedico = async (req = request, res = response) => {
   } catch (error) {
     console.log(error);
     return res.status(500).json({
-      ok: true,
+      ok: false,
       msg: "Error Inesperado... revisar logs.",
     });
   }
@@ -79,4 +97,5 @@ module.exports = {
   crearMedico,
   actualizarMedico,
   borrarMedico,
+  getMedicoById,
 };

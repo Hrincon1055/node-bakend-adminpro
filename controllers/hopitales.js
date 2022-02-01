@@ -24,7 +24,7 @@ const crearHospital = async (req = request, res = response) => {
   } catch (error) {
     console.log(error);
     return res.status(500).json({
-      ok: true,
+      ok: false,
       msg: "Error Inesperado... revisar logs.",
     });
   }
@@ -49,7 +49,7 @@ const actualizarHospital = async (req = request, res = response) => {
   } catch (error) {
     console.log(error);
     return res.status(500).json({
-      ok: true,
+      ok: false,
       msg: "Error Inesperado... revisar logs.",
     });
   }
@@ -65,7 +65,7 @@ const borrarHospital = async (req = request, res = response) => {
   } catch (error) {
     console.log(error);
     return res.status(500).json({
-      ok: true,
+      ok: false,
       msg: "Error Inesperado... revisar logs.",
     });
   }
