@@ -8,7 +8,11 @@ const {
 } = require("../controllers/usuarios");
 const { existeIdUsuario } = require("../helpers/db-validators");
 const { validarCampos } = require("../middlewares/validar-campos");
-const { validarJWT } = require("../middlewares/validar-jwt");
+const {
+  validarJWT,
+  validarAMIN_ROLE,
+  validarAMIN_ROLE_o_MismoUSuario,
+} = require("../middlewares/validar-jwt");
 
 const router = Router();
 /*
@@ -29,6 +33,7 @@ router.put(
   "/:id",
   [
     validarJWT,
+    validarAMIN_ROLE_o_MismoUSuario,
     check("id", "No es un ID valido de mongo.").isMongoId(),
     check("id").custom(existeIdUsuario),
     check("nombre", "El nombre es obligatorio.").not().isEmpty(),
@@ -42,6 +47,7 @@ router.delete(
   "/:id",
   [
     validarJWT,
+    validarAMIN_ROLE,
     check("id", "No es un ID valido de mongo.").isMongoId(),
     check("id").custom(existeIdUsuario),
   ],

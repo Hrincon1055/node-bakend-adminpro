@@ -2,6 +2,7 @@ const { request, response } = require("express");
 const bcrypt = require("bcryptjs");
 const Usuario = require("../models/usuario");
 const { generarJWT } = require("../helpers/jwt");
+const { getMenuFrontend } = require("../helpers/menu.frontend");
 
 const getUsuarios = async (req = request, res = response) => {
   const desde = Number(req.query.desde) || 0;
@@ -39,6 +40,7 @@ const crearUsuario = async (req = request, res = response) => {
       ok: true,
       usuario,
       token,
+      menu: getMenuFrontend(usuario.role),
     });
   } catch (error) {
     console.log("usuarios LINE 33 =>", error);
@@ -76,7 +78,6 @@ const actualizarUsuario = async (req = request, res = response) => {
         msg: "Usuarios de google no pueden cambiar el correo..",
       });
     }
-    //! TODO: validar token y comprobar usuario
     //? Acutalizaciones
     const usuarioActualizado = await Usuario.findByIdAndUpdate(uid, campos, {
       new: true,
